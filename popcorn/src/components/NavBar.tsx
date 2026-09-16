@@ -1,7 +1,6 @@
 
 import { type PropsWithChildren } from "react";
-import { Logo } from "./Logo";
-import { Search } from "./Search";
+
 
 
 
