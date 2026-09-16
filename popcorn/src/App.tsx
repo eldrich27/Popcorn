@@ -1,14 +1,6 @@
 import { useState } from "react";
+import type { Movie } from "./types/Movie";
 
-type Movie = {
-  imdbID: string;
-  Title: string;
-  Year: string;
-  Poster: string;
-  runtime?: number;
-  imdbRating?: number;
-  userRating?: number;
-};
 
 const tempMovieData: Movie[] = [
   {
