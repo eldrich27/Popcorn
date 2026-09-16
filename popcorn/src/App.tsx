@@ -6,6 +6,7 @@ import { NavBar } from "./components/NavBar";
 import { Logo } from "./components/Logo";
 import { Search } from "./components/Search";
 import { Main } from "./components/Main";
+import { LeftBox, RightBox } from "./components/Box";
 
 
 
@@ -20,8 +21,10 @@ export default function App() {
         <Logo/>
         <Search />
       </NavBar>
-      <Main />
-      
+      <Main >
+        <LeftBox />
+        <RightBox/>
+      </Main>
     </>
   );
 }
