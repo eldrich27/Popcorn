@@ -50,8 +50,7 @@ const tempWatchedData: Movie[] = [
   },
 ];
 
-const average = (values: number[]) =>
-  values.reduce((total, value) => total + value, 0) / (values.length || 1);
+
 
 
 function LeftBox(){
@@ -71,18 +70,11 @@ function LeftBox(){
 }
 
 
-function RightBox(){
+function RightBox() {
     const [watched] = useState<Movie[]>(tempWatchedData);
-    
     const [isOpen2, setIsOpen2] = useState(true);
 
-    const avgImdbRating = average(
-        watched.map((movie) => movie.imdbRating ?? 0),
-    );
-    const avgUserRating = average(watched.map((movie) => movie.userRating ?? 0));
-    const avgRuntime = average(watched.map((movie) => movie.runtime ?? 0));
-
-    return(
+    return (
         <div className="box">
           <button
             className="btn-toggle"
@@ -90,9 +82,9 @@ function RightBox(){
           >
             {isOpen2 ? "–" : "+"}
           </button>
-          {isOpen2 && 'Watched Movies'}
+          {isOpen2 && <WatchedMovieList watched={watched} />}
         </div>
-    )
+    );
 }
 
 

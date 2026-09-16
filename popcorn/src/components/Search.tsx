@@ -1,24 +1,25 @@
 import { useState } from "react";
-
+import type { Movie } from "../types/Movie";
 
 type SearchProps = {
-    movies?: unknown[];
+    movies?: Movie[];
 };
 
-export function Search({movies = []}:SearchProps){
+export function Search({ movies = [] }: SearchProps) {
     const [query, setQuery] = useState("");
-    return(
+
+    return (
         <>
             <input
-                    className="search"
-                    type="text"
-                    placeholder="Search movies..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                className="search"
+                type="text"
+                placeholder="Search movies..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
             />
             <p className="num-results">
                 Found <strong>{movies.length}</strong> results
             </p>
         </>
-    )
+    );
 }

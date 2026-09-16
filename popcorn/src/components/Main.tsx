@@ -1,14 +1,5 @@
-import { Children, useState, type PropsWithChildren } from "react";
-import type { Movie } from "../types/Movie";
+import type { PropsWithChildren } from "react";
 
-
-
-
-export function Main({children }:PropsWithChildren){
-
-    return(
-        <main className="main">
-        {children}
-        </main>
-    )
+export function Main({ children }: PropsWithChildren) {
+    return <main className="main">{children}</main>;
 }
