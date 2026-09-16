@@ -1,6 +1,16 @@
 import { useState } from "react";
 
-const tempMovieData = [
+type Movie = {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+  runtime?: number;
+  imdbRating?: number;
+  userRating?: number;
+};
+
+const tempMovieData: Movie[] = [
   {
     imdbID: "tt1375666",
     Title: "Inception",
@@ -24,7 +34,7 @@ const tempMovieData = [
   },
 ];
 
-const tempWatchedData = [
+const tempWatchedData: Movie[] = [
   {
     imdbID: "tt1375666",
     Title: "Inception",
@@ -47,19 +57,21 @@ const tempWatchedData = [
   },
 ];
 
-const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+const average = (values: number[]) =>
+  values.reduce((total, value) => total + value, 0) / (values.length || 1);
 
 export default function App() {
   const [query, setQuery] = useState("");
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies] = useState<Movie[]>(tempMovieData);
+  const [watched] = useState<Movie[]>(tempWatchedData);
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
 
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  const avgImdbRating = average(
+    watched.map((movie) => movie.imdbRating ?? 0),
+  );
+  const avgUserRating = average(watched.map((movie) => movie.userRating ?? 0));
+  const avgRuntime = average(watched.map((movie) => movie.runtime ?? 0));
 
   return (
     <>
