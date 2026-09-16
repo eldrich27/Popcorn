@@ -1,15 +1,24 @@
+import type { Movie } from "../types/Movie"
 
-
-function Movie(){
+function MovieItem({movie}: {movie: Movie}){
     return(
-        <h1>Movie Item</h1>
+        <li key={movie.imdbID}>
+            <img src={movie.Poster} alt={`${movie.Title} poster`} />
+            <h3>{movie.Title}</h3>
+            <div>
+            <p>
+                <span>🗓</span>
+                <span>{movie.Year}</span>
+            </p>
+            </div>
+        </li>
     )
 }
 
-function WatchedMovie(){
+function WatchedMovieItem(){
     return(
         <h1>Watched Movie Item</h1>
     )
 }
 
-export {Movie, WatchedMovie}
+export {MovieItem, WatchedMovieItem}
