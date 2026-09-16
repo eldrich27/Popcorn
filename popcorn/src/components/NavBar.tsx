@@ -1,16 +1,15 @@
 
-import { useState } from "react";
+import { type PropsWithChildren } from "react";
 import { Logo } from "./Logo";
 import { Search } from "./Search";
 
 
 
-export function NavBar(){
+export function NavBar({ children }: PropsWithChildren) {
     
     return(
         <nav className="nav-bar">
-            <Logo />
-            <Search />
-      </nav>
+            {children}
+        </nav>
     )
 }
