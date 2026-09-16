@@ -48,8 +48,11 @@ const tempWatchedData: Movie[] = [
   },
 ];
 
+const average = (values: number[]) =>
+  values.reduce((total, value) => total + value, 0) / (values.length || 1);
 
-function LeftBox({movie}:Movie){
+
+function LeftBox(){
     const [movies] = useState<Movie[]>(tempMovieData);
     const [isOpen1, setIsOpen1] = useState(true);
     return(
@@ -80,4 +83,77 @@ function LeftBox({movie}:Movie){
     );
 }
 
-export {LeftBox}
+
+function RightBox(){
+    const [watched] = useState<Movie[]>(tempWatchedData);
+    
+    const [isOpen2, setIsOpen2] = useState(true);
+
+    const avgImdbRating = average(
+        watched.map((movie) => movie.imdbRating ?? 0),
+    );
+    const avgUserRating = average(watched.map((movie) => movie.userRating ?? 0));
+    const avgRuntime = average(watched.map((movie) => movie.runtime ?? 0));
+
+    return(
+        <div className="box">
+          <button
+            className="btn-toggle"
+            onClick={() => setIsOpen2((open) => !open)}
+          >
+            {isOpen2 ? "–" : "+"}
+          </button>
+          {isOpen2 && (
+            <>
+              <div className="summary">
+                <h2>Movies you watched</h2>
+                <div>
+                  <p>
+                    <span>#️⃣</span>
+                    <span>{watched.length} movies</span>
+                  </p>
+                  <p>
+                    <span>⭐️</span>
+                    <span>{avgImdbRating}</span>
+                  </p>
+                  <p>
+                    <span>🌟</span>
+                    <span>{avgUserRating}</span>
+                  </p>
+                  <p>
+                    <span>⏳</span>
+                    <span>{avgRuntime} min</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul className="list">
+                {watched.map((movie) => (
+                  <li key={movie.imdbID}>
+                    <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                    <h3>{movie.Title}</h3>
+                    <div>
+                      <p>
+                        <span>⭐️</span>
+                        <span>{movie.imdbRating}</span>
+                      </p>
+                      <p>
+                        <span>🌟</span>
+                        <span>{movie.userRating}</span>
+                      </p>
+                      <p>
+                        <span>⏳</span>
+                        <span>{movie.runtime} min</span>
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+    )
+}
+
+
+export {LeftBox, RightBox}
