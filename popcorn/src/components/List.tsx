@@ -1,8 +1,21 @@
+import type { Movie } from "../types/Movie"
 
-
-function MovieList(){
+function MovieList({movies}: { movies: Movie[] }){
     return(
-        <h1>mOVIES lIST</h1>
+        <ul className="list">
+            {movies?.map((movie) => (
+            <li key={movie.imdbID}>
+                <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                <h3>{movie.Title}</h3>
+                <div>
+                <p>
+                    <span>🗓</span>
+                    <span>{movie.Year}</span>
+                </p>
+                </div>
+            </li>
+            ))}
+        </ul>
     )
 }
 
@@ -13,4 +26,4 @@ function WatchedMovieList(){
 }
 
 
-export {MovieList}
+export {MovieList, WatchedMovieList}
