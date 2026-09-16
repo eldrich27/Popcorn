@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { Movie } from "./types/Movie";
 
+//importing components
+import { NavBar } from "./components/NavBar";
+
 
 const tempMovieData: Movie[] = [
   {
@@ -53,7 +56,7 @@ const average = (values: number[]) =>
   values.reduce((total, value) => total + value, 0) / (values.length || 1);
 
 export default function App() {
-  const [query, setQuery] = useState("");
+  
   const [movies] = useState<Movie[]>(tempMovieData);
   const [watched] = useState<Movie[]>(tempWatchedData);
   const [isOpen1, setIsOpen1] = useState(true);
@@ -67,23 +70,8 @@ export default function App() {
 
   return (
     <>
-      <nav className="nav-bar">
-        <div className="logo">
-          <span role="img">🍿</span>
-          <h1>usePopcorn</h1>
-        </div>
-        <input
-          className="search"
-          type="text"
-          placeholder="Search movies..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <p className="num-results">
-          Found <strong>{movies.length}</strong> results
-        </p>
-      </nav>
-
+      
+      <NavBar />
       <main className="main">
         <div className="box">
           <button
