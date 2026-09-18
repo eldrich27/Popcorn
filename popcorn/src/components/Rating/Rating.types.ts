@@ -4,28 +4,48 @@ import type { ReactNode, SyntheticEvent } from "react";
 export type RatingSize = "small" | "medium" | "large";
 
 export interface RatingProps {
-  value? : number | null;    // Current cotrolled valus
-  defaultValue? : number;    // Initial uncontrolled value
-  onCahnge? :(               // Fired when the user commits a rating (click)
+  /** Current controlled value */
+  value?: number | null;
+
+  /** Initial uncontrolled value */
+  defaultValue?: number;
+
+  /** Fired when the user commits a rating (click) */
+  onChange?: (
     event: SyntheticEvent,
     value: number | null
-  )=> void;
-  
-  onChangeActive?: (         /** Fired while hovering (for live feedback) */
+  ) => void;
+
+  /** Fired while hovering (for live feedback) */
+  onChangeActive?: (
     event: SyntheticEvent,
     hoverValue: number
   ) => void;
-  
-  precision?: number;       /** Step granularity, e.g. 0.5 = half stars */
-  max?: number;             /** Number of icons */
-  size?: RatingSize;        /* small | medium | large*/
+
+  /** Step granularity, e.g. 0.5 = half stars */
+  precision?: number;
+
+  /** Number of icons */
+  max?: number;
+  size?: RatingSize;
   readOnly?: boolean;
   disabled?: boolean;
+
+  /** Only highlight the selected icon, not all before it */
+  highlightSelectedOnly?: boolean;
+
+  /** Custom filled icon */
+  icon?: ReactNode;
+
+  /** Custom empty icon */
+  emptyIcon?: ReactNode;
+
+  /** aria-label for accessibility */
+  name?: string;
+
+  /** Text read by screen readers per value, e.g. "4 Stars" */
+  getLabelText?: (value: number) => string;
   
-  highlightSelectedOnly?: boolean; /** Only highlight the selected icon, not all before it */
-  icon?: ReactNode;                /** Custom filled icon */
-  emptyIcon?: ReactNode;           /** Custom empty icon */
-  name?: string;                   /** aria-label for accessibility */
-  getLabelText?: (value: number) => string; /** Text read by screen readers per value, e.g. "4 Stars" */
-  className?: string;              /** Extra className hook */
+  /** Extra className hook */
+  className?: string;
 }
