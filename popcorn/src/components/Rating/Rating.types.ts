@@ -31,6 +31,9 @@ export interface RatingProps {
   readOnly?: boolean;
   disabled?: boolean;
 
+  /** Layout axis. "vertical" stacks icons bottom (low) to top (high). */
+  orientation?: "horizontal" | "vertical";
+
   /** Only highlight the selected icon, not all before it */
   highlightSelectedOnly?: boolean;
 

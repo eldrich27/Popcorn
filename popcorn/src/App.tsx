@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Movie } from "./types/Movie";
-import { Rating } from "./components/Rating";
+import { Rating, CustomHeart, CustomHeartOutline } from "./components/Rating";
 
 import { NavBar } from "./components/NavBar";
 import { Logo } from "./components/Logo";
@@ -69,28 +69,33 @@ export default function App() {
 
   return (
     <>
+    <div>
       {/* Basic */}
       <Rating defaultValue={2.5} precision={0.5} />
-
-      {/* Controlled, with live label */}
+    </div>
+    <div>
+      {/* Controlled ratings share the same value, so selecting either updates both. */}
       <Rating
         value={value}
         onChange={(_, v) => setValue(v)}
         onChangeActive={(_, v) => console.log(`hovering ${v}`)}
       />
+      <p> Controlled rating</p>
+      <Rating value={value} readOnly onChange={(_, v) => setValue(v) } />
       <p>{value !== null ? `${value} stars` : "No rating"}</p>
-
-      {/* Custom API surface */}
-      {/* <Rating
-        max={10}
+    </div>
+      
+    <div>
+      {/* Custom API surface: custom heart icon, highlightSelectedOnly, vertical orientation */}
+      <Rating
+        max={5}
         size="large"
-        highlightSelectedOnly
+        // highlightSelectedOnly
         getLabelText={(v) => `${v}/10`}
         icon={<CustomHeart />}
         emptyIcon={<CustomHeartOutline />}
-      /> */}
-
-      <Rating value={4} readOnly />
+      />
+    </div>
       <Rating disabled />
 
 

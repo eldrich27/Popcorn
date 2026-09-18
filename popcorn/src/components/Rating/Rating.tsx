@@ -28,6 +28,7 @@ export function Rating({
   precision = 1,
   max = 5,
   size = "medium",
+  orientation = "horizontal",
   readOnly = false,
   disabled = false,
   highlightSelectedOnly = false,
@@ -49,8 +50,11 @@ export function Rating({
 
   const getEventValue = (e: SyntheticEvent): number => {
     const rect = rootRef.current!.getBoundingClientRect();
-    const x = (e as React.MouseEvent).clientX - rect.left;
-    const fraction = x / rect.width;           // 0–1 across the whole row
+    const mouseEvent = e as React.MouseEvent;
+    const fraction =
+      orientation === "vertical"
+        ? 1 - (mouseEvent.clientY - rect.top) / rect.height // bottom = 0, top = max
+        : (mouseEvent.clientX - rect.left) / rect.width;    // left = 0, right = max
     const raw = fraction * max;                // value in star units
     return clamp(roundToPrecision(raw, precision), precision, max);
   };
@@ -91,6 +95,8 @@ export function Rating({
       onClick={handleClick}
       style={{
         display: "inline-flex",
+        flexDirection: orientation === "vertical" ? "column-reverse" : "row",
+        alignItems: "center",
         cursor: readOnly || disabled ? "default" : "pointer",
         opacity: disabled ? 0.4 : 1,
         gap: 2,
@@ -98,10 +104,10 @@ export function Rating({
     >
       {Array.from({ length: max }, (_, i) => {
         const index = i + 1;
-        const isFilled = highlightSelectedOnly
-          ? displayValue === index
-          : displayValue >= index;
-        const fraction = clamp(displayValue - i, 0, 1);
+        // highlightSelectedOnly: only the chosen icon lights up, no cumulative trail
+        const fraction = highlightSelectedOnly
+          ? (Math.round(displayValue) === index ? 1 : 0)
+          : clamp(displayValue - i, 0, 1);
 
         return (
           <span key={index} style={{ position: "relative" }}>
@@ -110,6 +116,7 @@ export function Rating({
               icon={icon}
               emptyIcon={emptyIcon}
               size={pxSize}
+              orientation={orientation}
             />
             {/* screen-reader input (MUI does this too) */}
             <input
