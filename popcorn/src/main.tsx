@@ -4,6 +4,7 @@ import './index.css'
 // import App from './App.tsx'
 import { Rating } from './components/Rating/Rating'
 
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* <App /> */}
