@@ -16,9 +16,16 @@ const defaultEmptyIcon = (
 export function Rating(){
     return (
         <div>
-            <h1>Hellow from ratigs</h1>
-          <span style={{ width: "24px", height: "24px", display: "inline-block" }}>{defaultIcon}</span>
-            <span style= {{ width: "24px", height: "24px", display: "inline-block" }}>{defaultEmptyIcon}</span>
+            <span>{Array.from({length:10},(_,i)=>{
+                return(
+                    <Star
+                      filled={i < 0 ? 1 : 0}
+                      icon={defaultIcon}
+                      emptyIcon={defaultEmptyIcon}
+                      size={24}
+                    />
+                )
+            })}</span>
         </div>
     )
 }
