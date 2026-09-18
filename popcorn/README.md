@@ -1,32 +1,71 @@
-# React + TypeScript + Vite
+# 🍿 usePopcorn
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A movie search and watchlist app, built while learning React + TypeScript. It's based on the classic "usePopcorn" project structure: search for movies, browse results, and keep track of what you've watched along with your own ratings.
 
-Currently, two official plugins are available:
+## Current state
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The UI shell is in place, but the two movie lists are still wired to temporary hardcoded data (`tempMovieData` / `tempWatchedData` in [Search.tsx](src/components/Box.tsx)) rather than a live search API. The search input in [NavBar](src/components/Search.tsx) doesn't yet filter or fetch anything.
 
-## React Compiler
+## Tech stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/) for dev server and bundling
+- [Oxlint](https://oxc.rs/) for linting
 
-## Expanding the Oxlint configuration
+## Getting started
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+```bash
+npm install
+npm run dev
+```
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+Then open the URL Vite prints (usually `http://localhost:5173`).
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server with HMR |
+| `npm run build` | Type-check (`tsc -b`) and build for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run Oxlint |
+
+## Project structure
+
+```
+src/
+├── App.tsx              # Top-level layout: NavBar + Main
+├── main.tsx             # React entry point
+├── index.css            # Global styles
+├── types/
+│   └── Movie.tsx         # Movie interface shared across components
+└── components/
+    ├── NavBar.tsx        # Top nav bar container
+    ├── Logo.tsx          # App logo/title
+    ├── Search.tsx        # Search input + results count
+    ├── Main.tsx          # Main content container
+    ├── Box.tsx           # Collapsible LeftBox (search results) / RightBox (watched list)
+    ├── List.tsx          # MovieList and WatchedMovieList (with rating averages)
+    └── Item.tsx          # MovieItem and WatchedMovieItem row renderers
+```
+
+## Data model
+
+```ts
+interface Movie {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+  runtime?: number;
+  imdbRating?: number;
+  userRating?: number;
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Roadmap ideas
+
+- Wire `Search` up to a real movie API (e.g. OMDb) and drop the temp data
+- Add "add to watched" / "remove from watched" interactions
+- Persist the watched list (e.g. `localStorage`)
+- Add a movie details view
