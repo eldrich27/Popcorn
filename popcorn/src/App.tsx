@@ -69,37 +69,7 @@ export default function App() {
 
   return (
     <>
-    <div>
-      {/* Basic */}
-      <Rating defaultValue={2.5} precision={0.5} />
-    </div>
-    <div>
-      {/* Controlled ratings share the same value, so selecting either updates both. */}
-      <Rating
-        value={value}
-        onChange={(_, v) => setValue(v)}
-        onChangeActive={(_, v) => console.log(`hovering ${v}`)}
-      />
-      <p> Controlled rating</p>
-      <Rating value={value} readOnly onChange={(_, v) => setValue(v) } />
-      <p>{value !== null ? `${value} stars` : "No rating"}</p>
-    </div>
-      
-    <div>
-      {/* Custom API surface: custom heart icon, highlightSelectedOnly, vertical orientation */}
-      <Rating
-        max={5}
-        size="large"
-        // highlightSelectedOnly
-        getLabelText={(v) => `${v}/10`}
-        icon={<CustomHeart />}
-        emptyIcon={<CustomHeartOutline />}
-      />
-    </div>
-      <Rating disabled />
-
-
-      {/* <NavBar>
+      <NavBar>
         <Logo />
         <Search />
         <NumResult movies={movies}/>
@@ -112,7 +82,39 @@ export default function App() {
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
         </Box>
-      </Main> */}
+      </Main>
     </>
   );
 }
+
+
+// Template code for ratings component
+
+//  <div>
+//       {/* Basic */}
+//       <Rating defaultValue={2.5} precision={0.5} />
+//     </div>
+//     <div>
+//       {/* Controlled ratings share the same value, so selecting either updates both. */}
+//       <Rating
+//         value={value}
+//         onChange={(_, v) => setValue(v)}
+//         onChangeActive={(_, v) => console.log(`hovering ${v}`)}
+//       />
+//       <p> Controlled rating</p>
+//       <Rating value={value} readOnly onChange={(_, v) => setValue(v) } />
+//       <p>{value !== null ? `${value} stars` : "No rating"}</p>
+//     </div>
+      
+//     <div>
+//       {/* Custom API surface: custom heart icon, highlightSelectedOnly, vertical orientation */}
+//       <Rating
+//         max={5}
+//         size="large"
+//         // highlightSelectedOnly
+//         getLabelText={(v) => `${v}/10`}
+//         icon={<CustomHeart />}
+//         emptyIcon={<CustomHeartOutline />}
+//       />
+//     </div>
+//       <Rating disabled />

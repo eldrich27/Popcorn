@@ -16,7 +16,8 @@ export function CustomHeartOutline() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={1}
+      color="#000"
       width="100%"
       height="100%"
     >
