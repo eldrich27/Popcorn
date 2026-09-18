@@ -5,7 +5,9 @@ import { NavBar } from "./components/NavBar";
 import { Logo } from "./components/Logo";
 import { Search } from "./components/Search";
 import { Main } from "./components/Main";
-import { LeftBox, RightBox } from "./components/Box";
+import { Box } from "./components/Box";
+import { MovieList, WatchedMovieList } from "./components/List";
+import { WatchedSummary } from "./components/WatchedSummary";
 import { NumResult } from "./components/NumResult";
 
 
@@ -70,8 +72,13 @@ export default function App() {
         <NumResult movies={movies}/>
       </NavBar>
       <Main>
-        <LeftBox movies={movies}/>
-        <RightBox watched={watched}/>
+        <Box>
+          <MovieList movies={movies} />
+        </Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
