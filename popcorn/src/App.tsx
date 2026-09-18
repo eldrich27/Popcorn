@@ -1,11 +1,14 @@
 import { useState } from "react";
 import type { Movie } from "./types/Movie";
+import { Rating, CustomHeart, CustomHeartOutline } from "./components/Rating";
 
 import { NavBar } from "./components/NavBar";
 import { Logo } from "./components/Logo";
 import { Search } from "./components/Search";
 import { Main } from "./components/Main";
-import { LeftBox, RightBox } from "./components/Box";
+import { Box } from "./components/Box";
+import { MovieList, WatchedMovieList } from "./components/List";
+import { WatchedSummary } from "./components/WatchedSummary";
 import { NumResult } from "./components/NumResult";
 
 
@@ -61,6 +64,8 @@ export default function App() {
   const [movies] = useState<Movie[]>(tempMovieData);
   const [watched] = useState<Movie[]>(tempWatchedData);
 
+  const [value, setValue] = useState<number | null>(3);
+
 
   return (
     <>
@@ -70,9 +75,46 @@ export default function App() {
         <NumResult movies={movies}/>
       </NavBar>
       <Main>
-        <LeftBox movies={movies}/>
-        <RightBox watched={watched}/>
+        <Box>
+          <MovieList movies={movies} />
+        </Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
 }
+
+
+// Template code for ratings component
+
+//  <div>
+//       {/* Basic */}
+//       <Rating defaultValue={2.5} precision={0.5} />
+//     </div>
+//     <div>
+//       {/* Controlled ratings share the same value, so selecting either updates both. */}
+//       <Rating
+//         value={value}
+//         onChange={(_, v) => setValue(v)}
+//         onChangeActive={(_, v) => console.log(`hovering ${v}`)}
+//       />
+//       <p> Controlled rating</p>
+//       <Rating value={value} readOnly onChange={(_, v) => setValue(v) } />
+//       <p>{value !== null ? `${value} stars` : "No rating"}</p>
+//     </div>
+      
+//     <div>
+//       {/* Custom API surface: custom heart icon, highlightSelectedOnly, vertical orientation */}
+//       <Rating
+//         max={5}
+//         size="large"
+//         // highlightSelectedOnly
+//         getLabelText={(v) => `${v}/10`}
+//         icon={<CustomHeart />}
+//         emptyIcon={<CustomHeartOutline />}
+//       />
+//     </div>
+//       <Rating disabled />
