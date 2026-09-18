@@ -14,18 +14,31 @@ const defaultEmptyIcon = (
 );
 
 export function Rating(){
+  const [index, setIndex] = useState(0);
+
     return (
         <div>
-            <span>{Array.from({length:10},(_,i)=>{
-                return(
+            {Array.from({ length: 10 }, (_, i) => (
+                <span
+                key={i}
+                role="button"
+                tabIndex={0}
+                onClick={() => setIndex(i + 1)}
+                onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                    setIndex(i + 1);
+                    }
+                }}
+                >
                     <Star
-                      filled={i < 0 ? 1 : 0}
-                      icon={defaultIcon}
-                      emptyIcon={defaultEmptyIcon}
-                      size={24}
+                        filled={i < index ? 1 : 0}
+                        icon={defaultIcon}
+                        emptyIcon={defaultEmptyIcon}
+                        size={36}
                     />
-                )
-            })}</span>
+                </span>
+            ))}
+            <span>{index}</span>
         </div>
-    )
+  );
 }
