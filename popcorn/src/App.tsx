@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Movie } from "./types/Movie";
+import { Rating } from "./components/Rating";
 
 import { NavBar } from "./components/NavBar";
 import { Logo } from "./components/Logo";
@@ -63,10 +64,37 @@ export default function App() {
   const [movies] = useState<Movie[]>(tempMovieData);
   const [watched] = useState<Movie[]>(tempWatchedData);
 
+  const [value, setValue] = useState<number | null>(3);
+
 
   return (
     <>
-      <NavBar>
+      {/* Basic */}
+      <Rating defaultValue={2.5} precision={0.5} />
+
+      {/* Controlled, with live label */}
+      <Rating
+        value={value}
+        onChange={(_, v) => setValue(v)}
+        onChangeActive={(_, v) => console.log(`hovering ${v}`)}
+      />
+      <p>{value !== null ? `${value} stars` : "No rating"}</p>
+
+      {/* Custom API surface */}
+      {/* <Rating
+        max={10}
+        size="large"
+        highlightSelectedOnly
+        getLabelText={(v) => `${v}/10`}
+        icon={<CustomHeart />}
+        emptyIcon={<CustomHeartOutline />}
+      /> */}
+
+      <Rating value={4} readOnly />
+      <Rating disabled />
+
+
+      {/* <NavBar>
         <Logo />
         <Search />
         <NumResult movies={movies}/>
@@ -79,7 +107,7 @@ export default function App() {
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
         </Box>
-      </Main>
+      </Main> */}
     </>
   );
 }

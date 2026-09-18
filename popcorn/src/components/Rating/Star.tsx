@@ -23,7 +23,8 @@ export function Star({ filled, icon, emptyIcon, size }: StarProps) {
           color: "#faaf00",
         }}
       >
-        {icon}
+        {/* fixed to the full star size so clipping crops it instead of the icon rescaling to fit */}
+        <span style={{ display: "block", width: size, height: size }}>{icon}</span>
       </span>
     </span>
   );
