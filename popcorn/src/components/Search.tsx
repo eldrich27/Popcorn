@@ -29,9 +29,7 @@ export function Search({ movies = [] }: SearchProps) {
                     <path d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
                 </svg>
             </button>
-            <p className="num-results">
-                Found <strong>{movies.length}</strong> results
-            </p>
+            
         </div>
     );
 }
