@@ -1,11 +1,6 @@
 import { useState } from "react";
-import type { Movie } from "../types/Movie";
 
-type SearchProps = {
-    movies?: Movie[];
-};
-
-export function Search({ movies = [] }: SearchProps) {
+export function Search() {
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
@@ -29,7 +24,6 @@ export function Search({ movies = [] }: SearchProps) {
                     <path d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
                 </svg>
             </button>
-            
         </div>
     );
 }
