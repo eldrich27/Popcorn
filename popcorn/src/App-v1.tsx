@@ -22,14 +22,28 @@ export default function App() {
   const [value, setValue] = useState<number | null>(3);
 
 
+  
+  const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`
+  const search = "War"
+  
   useEffect(function () {
-    fetch(
-      `https://www.omdbapi.com/?apikey=${
-        import.meta.env.VITE_OMDB_API_KEY ?? KEY
-      }&s=${encodeURIComponent("Interstellar")}`
-    )
-      .then((res) => res.json())
-      .then((data) => setMovies(data.Search));
+    const getMovies = async function ({api_uri, search}:{api_uri:string, search:string}):Promise<any>{
+      const search_uri = api_uri + '&s=' + encodeURIComponent(search);
+      const res = await fetch(search_uri);
+      const data = await res.json();
+      return data
+    }
+
+    getMovies({ api_uri, search }).then((data) => {
+      setMovies(data.Search ?? []);
+    });
+    // fetch(
+    //   `https://www.omdbapi.com/?apikey=${
+    //     import.meta.env.VITE_OMDB_API_KEY ?? KEY
+    //   }&s=${encodeURIComponent("Interstellar")}`
+    // )
+    //   .then((res) => res.json())
+    //   .then((data) => setMovies(data.Search));
 
   },[])
 
