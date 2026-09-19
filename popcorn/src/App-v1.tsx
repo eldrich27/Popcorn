@@ -58,13 +58,22 @@ const tempWatchedData: Movie[] = [
     userRating: 9,
   },
 ];
-
+// key for omdb api
+const KEY:string = "4fa905f8"
 
 export default function App() {
-  const [movies] = useState<Movie[]>(tempMovieData);
-  const [watched] = useState<Movie[]>(tempWatchedData);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [watched] = useState<Movie[]>([]);
 
   const [value, setValue] = useState<number | null>(3);
+
+  fetch(
+    `https://www.omdbapi.com/?apikey=${
+      import.meta.env.VITE_OMDB_API_KEY ?? KEY
+    }&s=${encodeURIComponent("harry potter")}`
+  )
+    .then((res) => res.json())
+    .then((data) => console.log(data.Search));
 
 
   return (
