@@ -20,8 +20,6 @@ export default function App() {
   const [watched] = useState<Movie[]>([]);
 
   // const [value, setValue] = useState<number | null>(3);
-
-
   
   const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`;
   const search = "Mega";
@@ -50,7 +48,6 @@ export default function App() {
     return () => controller.abort();
 
   }, [api_uri, search]);
-
 
 
 
