@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 
-export function Search() {
-    const [query, setQuery] = useState("");
+export function Search({query, setQuery}:{query:string, setQuery: Dispatch<SetStateAction<string>>}) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
