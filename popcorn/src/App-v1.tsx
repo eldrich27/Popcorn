@@ -23,20 +23,31 @@ export default function App() {
 
 
   
-  const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`
-  const search = "War"
-  
-  useEffect(function () {
-    const getMovies = async function ({api_uri, search}:{api_uri:string, search:string}):Promise<any>{
-      const search_uri = api_uri + '&s=' + encodeURIComponent(search);
-      const res = await fetch(search_uri);
-      const data = await res.json();
-      return data
-    }
+  const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`;
+  const search = "Mega";
 
-    getMovies({ api_uri, search }).then((data) => {
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const getMovies = async () => {
+      const search_uri = `${api_uri}&s=${encodeURIComponent(search)}`;
+      const res = await fetch(search_uri, { signal: controller.signal });
+
+      if (!res.ok) {
+        throw new Error(`Movie request failed: ${res.status}`);
+      }
+
+      const data: { Search?: Movie[] } = await res.json();
       setMovies(data.Search ?? []);
+    };
+
+    getMovies().catch((error: unknown) => {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      console.error(error);
+      setMovies([]);
     });
+
+    return () => controller.abort();
     // fetch(
     //   `https://www.omdbapi.com/?apikey=${
     //     import.meta.env.VITE_OMDB_API_KEY ?? KEY
@@ -45,7 +56,7 @@ export default function App() {
     //   .then((res) => res.json())
     //   .then((data) => setMovies(data.Search));
 
-  },[])
+  }, [api_uri, search]);
 
 
 
