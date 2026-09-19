@@ -11,6 +11,7 @@ import { MovieList, WatchedMovieList } from "./components/List";
 import { WatchedSummary } from "./components/WatchedSummary";
 import { NumResult } from "./components/NumResult";
 import { Loading } from "./components/Loading";
+import { Error as ErrorMessage } from "./components/Error";
 
 
 // key for omdb api
@@ -20,11 +21,12 @@ export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [watched] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string>("")
 
   // const [value, setValue] = useState<number | null>(3);
   
   const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`;
-  const search = "turtle";
+  const search = "men";
 
   useEffect(() => {
     setIsLoading(true)
@@ -46,6 +48,7 @@ export default function App() {
       if (error instanceof DOMException && error.name === "AbortError") return;
       console.error(error);
       setMovies([]);
+      setError(error instanceof Error ? error.message : String(error));
     }).finally(() => {
       setIsLoading(false);
     });
@@ -65,7 +68,10 @@ export default function App() {
       </NavBar>
       <Main>
         <Box>
-          {isLoading? <Loading/> : <MovieList movies={movies} />}
+          {isLoading && <Loading />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error}/>}
+          {/* {isLoading? <Loading/> : <MovieList movies={movies} />} */}
         </Box>
         <Box>
           <WatchedSummary watched={watched} />
