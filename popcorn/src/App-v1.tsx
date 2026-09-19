@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { Movie } from "./types/Movie";
-import { Rating, CustomHeart, CustomHeartOutline } from "./components/Rating";
 
 import { NavBar } from "./components/NavBar";
 import { Logo } from "./components/Logo";
@@ -26,10 +25,11 @@ export default function App() {
   // const [value, setValue] = useState<number | null>(3);
   
   const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`;
-  const search = "men";
+  const search = "back to";
 
   useEffect(() => {
     setIsLoading(true)
+    setError("")
     const controller = new AbortController();
 
     const getMovies = async () => {
@@ -37,11 +37,20 @@ export default function App() {
       const res = await fetch(search_uri, { signal: controller.signal });
 
       if (!res.ok) {
-        throw new Error(`Movie request failed: ${res.status}`);
+        setError(`Movie request failed: ${res.status} ${res.statusText}`);
+        setMovies([]);
+        return;
       }
 
-      const data: { Search?: Movie[] } = await res.json();
-      setMovies(data.Search ?? []);
+      const data: { Search?: Movie[]; Error?: string } = await res.json();
+
+      if (data.Error || !data.Search) {
+        setMovies([]);
+        setError(data.Error ?? "No movies were returned.");
+        return;
+      }
+
+      setMovies(data.Search);
       
     };
     getMovies().catch((error: unknown) => {
@@ -70,8 +79,7 @@ export default function App() {
         <Box>
           {isLoading && <Loading />}
           {!isLoading && !error && <MovieList movies={movies} />}
-          {error && <ErrorMessage message={error}/>}
-          {/* {isLoading? <Loading/> : <MovieList movies={movies} />} */}
+          {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
           <WatchedSummary watched={watched} />
