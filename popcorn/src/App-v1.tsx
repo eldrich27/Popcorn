@@ -22,13 +22,13 @@ export default function App() {
   const [watched] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>("interstellar");
 
   // const [value, setValue] = useState<number | null>(3);
 
   useEffect(() => {
     setError("")
-    if (query.length < 3) {
+    if (query.length < 4) {
       setMovies([])
       setIsLoading(false)
       return;

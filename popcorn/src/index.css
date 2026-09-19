@@ -57,6 +57,19 @@ body {
   border-radius: 0.9rem;
   overflow: auto;
   position: relative;
+  scroll-behavior: smooth;
+}
+
+/* slim scrollbar themed to the app */
+.box,
+.list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-background-100) transparent;
+}
+
+.box:hover,
+.list:hover {
+  scrollbar-color: var(--color-primary) transparent;
 }
 
 .loader {
