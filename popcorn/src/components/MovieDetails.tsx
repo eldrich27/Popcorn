@@ -98,6 +98,7 @@ export function MovieDetails({
             userRating: userRating ?? 0,
         }
         onAdd(newWatchedMovie)
+        onClose()
     }
 
     return (
