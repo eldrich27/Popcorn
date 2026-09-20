@@ -23,6 +23,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
   const [query, setQuery] = useState<string>("interstellar");
+  const [selectedId, setSelectedId] = useState<string | null>("tt1375666")
 
   // const [value, setValue] = useState<number | null>(3);
 
@@ -87,8 +88,10 @@ export default function App() {
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+          {selectedId ? selectedId:<>
+            <WatchedSummary watched={watched} />
+            <WatchedMovieList watched={watched} />
+          </>}
         </Box>
       </Main>
     </>
