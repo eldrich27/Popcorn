@@ -100,7 +100,7 @@ export default function App() {
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          {selectedId ? <MovieDetails selectedID={selectedId}/>:<>
+          {selectedId ? <MovieDetails selectedID={selectedId} onClose = {handleCloseMovie}/>:<>
             <WatchedSummary watched={watched} />
             <WatchedMovieList watched={watched} />
           </>}
