@@ -32,15 +32,15 @@ export function WatchedSummary({ watched }: { watched: Movie[] }) {
                 </p>
                 <p>
                     <span>⭐️</span>
-                    <span>{isEmpty ? "–" : formatRating(avgImdbRating)}</span>
+                    <span>{isEmpty ? "0" : formatRating(avgImdbRating)}</span>
                 </p>
                 <p>
                     <span>🌟</span>
-                    <span>{isEmpty ? "–" : formatRating(avgUserRating)}</span>
+                    <span>{isEmpty ? "0" : formatRating(avgUserRating)}</span>
                 </p>
                 <p>
                     <span>⏳</span>
-                    <span>{isEmpty ? "–" : formatRuntime(avgRuntime)}</span>
+                    <span>{isEmpty ? "0 min" : formatRuntime(avgRuntime)}</span>
                 </p>
             </div>
         </div>
