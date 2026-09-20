@@ -2,6 +2,9 @@
 
 export function MovieDetails({selectedID}:{selectedID:string}){
     return(
-        <div>{selectedID}</div>
+        <div className="details">
+            <button className="btn-back">&larr;</button>
+            {selectedID}
+        </div>
     );
 }
