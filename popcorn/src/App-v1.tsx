@@ -11,24 +11,26 @@ import { WatchedSummary } from "./components/WatchedSummary";
 import { NumResult } from "./components/NumResult";
 import { Loading } from "./components/Loading";
 import { Error as ErrorMessage } from "./components/Error";
+import {MovieDetails } from "./components/MovieDetails";
 
 
 // key for omdb api
-const KEY:string = "4fa905f8"
-const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`;
+// const KEY:string = import.meta.env.VITE_OMDB_API_KEY
+const api_uri:string = import.meta.env.VITE_OMDB_URL;
 
 export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [watched] = useState<Movie[]>([]);
+  const [watched, setWatched] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
   const [query, setQuery] = useState<string>("interstellar");
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   // const [value, setValue] = useState<number | null>(3);
 
   useEffect(() => {
     setError("")
-    if (query.length < 4) {
+    if (query.length <= 3) {
       setMovies([])
       setIsLoading(false)
       return;
@@ -72,6 +74,35 @@ export default function App() {
   }, [query]);
 
 
+  //fucnction tohandle clic event on movies list
+  function handleSelectedMovie(id: string){
+    setSelectedId((selectedId)=> selectedId === id ? null : id)
+  }
+
+  function handleCloseMovie(){
+    setSelectedId(null)
+  }
+
+  function handleAddMovie(movie: Movie){
+    setWatched(watched => {
+      const existingMovieIndex = watched.findIndex(
+        watchedMovie => watchedMovie.imdbID === movie.imdbID
+      );
+
+      if (existingMovieIndex === -1) return [...watched, movie];
+
+      const existingMovie = watched[existingMovieIndex];
+      if (existingMovie.userRating === movie.userRating) return watched;
+
+      const updatedWatched = [...watched];
+      updatedWatched[existingMovieIndex] = movie;
+      return updatedWatched;
+    });
+  }
+
+  function handleDeleteWatched(id: Movie["imdbID"]){
+    setWatched(watched => watched.filter(movie => movie.imdbID !== id))
+  }
 
   return (
     <>
@@ -83,12 +114,21 @@ export default function App() {
       <Main>
         <Box>
           {isLoading && <Loading />}
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && <MovieList 
+            movies={movies} 
+            onSelect={handleSelectedMovie}
+          />}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+          {selectedId ? <MovieDetails 
+            selectedID={selectedId} 
+            onClose = {handleCloseMovie}
+            onAdd = {handleAddMovie}
+          />:<>
+            <WatchedSummary watched={watched} />
+            <WatchedMovieList watched={watched} onDelete={handleDeleteWatched} />
+          </>}
         </Box>
       </Main>
     </>

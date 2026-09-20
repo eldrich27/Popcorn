@@ -49,6 +49,9 @@ export interface RatingProps {
   /** Text read by screen readers per value, e.g. "4 Stars" */
   getLabelText?: (value: number) => string;
   
+  /** Show the current (or hovered) value, e.g. "7/10", beside the icons */
+  showValue?: boolean;
+
   /** Extra className hook */
   className?: string;
 }

@@ -1,7 +1,7 @@
 // components/Rating/Rating.tsx
 import { useRef, useState, type SyntheticEvent } from "react";
 import type { RatingProps, RatingSize } from "./Rating.types";
-import { Star } from "./Star";
+import { Star, STAR_COLOR } from "./Star";
 import {
   clamp,
   roundToPrecision,
@@ -15,7 +15,15 @@ const defaultIcon = (
   </svg>
 );
 const defaultEmptyIcon = (
-  <svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%" style={{ opacity: 0.35 }}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={STAR_COLOR}
+    strokeWidth={1.5}
+    strokeLinejoin="round"
+    width="100%"
+    height="100%"
+  >
     <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
   </svg>
 );
@@ -36,6 +44,7 @@ export function Rating({
   emptyIcon = defaultEmptyIcon,
   name = "rating",
   getLabelText = defaultGetLabelText,
+  showValue = false,
   className,
 }: RatingProps) {
   const isControlled = valueProp !== undefined;
@@ -84,7 +93,9 @@ export function Rating({
     commit(e, getEventValue(e));
   };
 
+  // the radiogroup keeps its own box so hover math (getEventValue) ignores the value label
   return (
+    <span style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: "0.4rem" }}>
     <span
       ref={rootRef}
       role="radiogroup"
@@ -110,39 +121,47 @@ export function Rating({
           : clamp(displayValue - i, 0, 1);
 
         return (
-          <span key={index} style={{ position: "relative" }}>
-            <Star
-              filled={fraction}
-              icon={icon}
-              emptyIcon={emptyIcon}
-              size={pxSize}
-              orientation={orientation}
-            />
-            {/* screen-reader input (MUI does this too) */}
-            <input
-              type="radio"
-              name={name}
-              value={index}
-              checked={value === index}
-              readOnly
-              tabIndex={-1}
-              aria-label={getLabelText(index)}
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                opacity: 0,
-                pointerEvents: "none",
-                margin: 0,
-              }}
-            />
-          </span>
+            <div key={index}>
+                <span style={{ position: "relative" }}>
+                    <Star
+                    filled={fraction}
+                    icon={icon}
+                    emptyIcon={emptyIcon}
+                    size={pxSize}
+                    orientation={orientation}
+                    />
+                    {/* screen-reader input (MUI does this too) */}
+                    <input
+                    type="radio"
+                    name={name}
+                    value={index}
+                    checked={value === index}
+                    readOnly
+                    tabIndex={-1}
+                    aria-label={getLabelText(index)}
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        opacity: 0,
+                        pointerEvents: "none",
+                        margin: 0,
+                    }}
+                    />
+                </span>
+            </div>
         );
       })}
       {/* visually hidden live label */}
       <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>
         {getLabelText(displayValue)}
       </span>
+    </span>
+    {showValue && displayValue > 0 && (
+      <span style={{ fontSize: "0.6em", color: STAR_COLOR }}>
+        {displayValue}/{max}
+      </span>
+    )}
     </span>
   );
 }
