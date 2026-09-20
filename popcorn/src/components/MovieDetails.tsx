@@ -70,6 +70,9 @@ export function MovieDetails({
         return () => controller.abort();
     }, [selectedID]);
 
+
+    
+
     // destructuring the moviedetails object to receive values in lower case
     const {
         Title: title,
@@ -100,6 +103,15 @@ export function MovieDetails({
         onAdd(newWatchedMovie)
         onClose()
     }
+
+    // Effect to set and unset page title on clicking the movie list for details
+    useEffect(() => {
+        document.title = title? `Movie | ${title}` : "";
+
+        return function(){
+            document.title = "usePopcorn"
+        }
+    }, [title]);
 
     return (
         <div className="details">
