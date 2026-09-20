@@ -20,7 +20,7 @@ const api_uri:string = import.meta.env.VITE_OMDB_URL;
 
 export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [watched] = useState<Movie[]>([]);
+  const [watched, setWatched] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
   const [query, setQuery] = useState<string>("interstellar");
@@ -83,6 +83,10 @@ export default function App() {
     setSelectedId(null)
   }
 
+  function handleAddMovie({movie}:{movie:Movie}){
+    setWatched((previousWatched) => [...previousWatched, movie])
+  }
+
   return (
     <>
       <NavBar>
@@ -100,7 +104,11 @@ export default function App() {
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          {selectedId ? <MovieDetails selectedID={selectedId} onClose = {handleCloseMovie}/>:<>
+          {selectedId ? <MovieDetails 
+            selectedID={selectedId} 
+            onClose = {handleCloseMovie}
+            onAdd = {handleAddMovie}
+          />:<>
             <WatchedSummary watched={watched} />
             <WatchedMovieList watched={watched} />
           </>}
