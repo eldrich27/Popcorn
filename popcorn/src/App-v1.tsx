@@ -30,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     setError("")
-    if (query.length < 4) {
+    if (query.length <= 3) {
       setMovies([])
       setIsLoading(false)
       return;
