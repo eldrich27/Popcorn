@@ -113,6 +113,19 @@ export function MovieDetails({
         }
     }, [title]);
 
+
+    // Effect to listen to keydow events
+    useEffect(function(){
+        const callback = (e: KeyboardEvent) => {
+            if (e.code === "Escape"){
+                onClose()
+            }
+        }
+
+        document.addEventListener("keydown", callback);
+        return () => document.removeEventListener("keydown", callback);
+    }, [onClose]);
+
     return (
         <div className="details">
             <button className="btn-back" onClick={onClose}>&larr;</button>
