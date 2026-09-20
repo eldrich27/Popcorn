@@ -100,6 +100,10 @@ export default function App() {
     });
   }
 
+  function handleDeleteWatched(id: Movie["imdbID"]){
+    setWatched(watched => watched.filter(movie => movie.imdbID !== id))
+  }
+
   return (
     <>
       <NavBar>
@@ -123,7 +127,7 @@ export default function App() {
             onAdd = {handleAddMovie}
           />:<>
             <WatchedSummary watched={watched} />
-            <WatchedMovieList watched={watched} />
+            <WatchedMovieList watched={watched} onDelete={handleDeleteWatched} />
           </>}
         </Box>
       </Main>

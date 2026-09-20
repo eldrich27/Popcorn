@@ -21,7 +21,13 @@ function MovieItem({
     )
 }
 
-function WatchedMovieItem({movie}:{movie:Movie}){
+function WatchedMovieItem({
+    movie,
+    onDelete,
+}:{
+    movie:Movie,
+    onDelete:(id: Movie["imdbID"])=>void,
+}){
     return(
         <li key={movie.imdbID}>
             <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -39,6 +45,13 @@ function WatchedMovieItem({movie}:{movie:Movie}){
                     <span>⏳</span>
                     <span>{movie.runtime} min</span>
                 </p>
+                <button
+                    className="btn-delete"
+                    aria-label={`Remove ${movie.Title} from watched list`}
+                    onClick={() => onDelete(movie.imdbID)}
+                >
+                    X
+                </button>
             </div>
         </li>
     )

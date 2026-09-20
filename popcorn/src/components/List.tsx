@@ -21,11 +21,17 @@ function MovieList({
     );
 }
 
-function WatchedMovieList({ watched }: { watched: Movie[] }) {
+function WatchedMovieList({
+    watched,
+    onDelete
+}: {
+    watched: Movie[];
+    onDelete: (id: Movie["imdbID"]) => void;
+}) {
     return (
         <ul className="list list-movies">
             {watched.map((movie) => (
-                <WatchedMovieItem movie={movie} key={movie.imdbID} />
+                <WatchedMovieItem movie={movie} key={movie.imdbID} onDelete={onDelete} />
             ))}
         </ul>
     );
