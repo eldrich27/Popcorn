@@ -93,7 +93,11 @@ export default function App() {
       <Main>
         <Box>
           {isLoading && <Loading />}
-          {!isLoading && !error && <MovieList movies={movies} onSelect={handleSelectedMovie}/>}
+          {!isLoading && !error && <MovieList 
+            movies={movies} 
+            onSelect={handleSelectedMovie}
+            onClose = {handleCloseMovie}
+          />}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
