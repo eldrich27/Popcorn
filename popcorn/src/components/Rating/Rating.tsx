@@ -1,7 +1,7 @@
 // components/Rating/Rating.tsx
 import { useRef, useState, type SyntheticEvent } from "react";
 import type { RatingProps, RatingSize } from "./Rating.types";
-import { Star } from "./Star";
+import { Star, STAR_COLOR } from "./Star";
 import {
   clamp,
   roundToPrecision,
@@ -36,6 +36,7 @@ export function Rating({
   emptyIcon = defaultEmptyIcon,
   name = "rating",
   getLabelText = defaultGetLabelText,
+  showValue = false,
   className,
 }: RatingProps) {
   const isControlled = valueProp !== undefined;
@@ -84,7 +85,9 @@ export function Rating({
     commit(e, getEventValue(e));
   };
 
+  // the radiogroup keeps its own box so hover math (getEventValue) ignores the value label
   return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.8rem" }}>
     <span
       ref={rootRef}
       role="radiogroup"
@@ -143,6 +146,12 @@ export function Rating({
       <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>
         {getLabelText(displayValue)}
       </span>
+    </span>
+    {showValue && displayValue > 0 && (
+      <span style={{ fontSize: "0.6em", color: STAR_COLOR }}>
+        {displayValue}/{max}
+      </span>
+    )}
     </span>
   );
 }

@@ -27,7 +27,6 @@ export function MovieDetails({ selectedID, onClose }: { selectedID: string; onCl
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
     const [userRating, setUserRating] = useState<number | null>(null);
-    const [hoverRating, setHoverRating] = useState<number | null>(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -37,7 +36,6 @@ export function MovieDetails({ selectedID, onClose }: { selectedID: string; onCl
             setError("");
             setMovieDetail(null);
             setUserRating(null);
-            setHoverRating(null);
 
             const res = await fetch(`${OMDB_URL}&i=${encodeURIComponent(selectedID)}`, {
                 signal: controller.signal,
@@ -93,17 +91,14 @@ export function MovieDetails({ selectedID, onClose }: { selectedID: string; onCl
                         </div>
                     </header>
                     <section>
-                        <div className="rating" style={{ fontSize: "24px", display: "flex", alignItems: "center", gap: "1rem" }}>
+                        <div className="rating" style={{ fontSize: "24px" }}>
                             <Rating
                                 max={10}
                                 value={userRating}
                                 precision={0.5}
+                                showValue
                                 onChange={(_, value) => setUserRating(value)}
-                                onChangeActive={(e, value) => setHoverRating(e.type === "mouseleave" ? null : value)}
                             />
-                            {(hoverRating ?? userRating) !== null && (
-                                <span style={{ fontSize: "1.4rem" }}>{hoverRating ?? userRating}/10</span>
-                            )}
                         </div>
                         <p><em>{plot}</em></p>
                         <p>Starring {actors}</p>
