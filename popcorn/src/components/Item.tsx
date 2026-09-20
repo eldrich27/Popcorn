@@ -1,8 +1,14 @@
 import type { Movie } from "../types/Movie"
 
-function MovieItem({movie}: {movie: Movie}){
+function MovieItem({
+    movie,
+    onSelect
+}: {
+    movie: Movie, 
+    onSelect:(selectedId :Movie["imdbID"])=>void
+}){
     return(
-        <li key={movie.imdbID}>
+        <li key={movie.imdbID} onClick={() => onSelect(movie.imdbID)}>
             <img src={movie.Poster} alt={`${movie.Title} poster`} />
             <h3>{movie.Title}</h3>
             <div>

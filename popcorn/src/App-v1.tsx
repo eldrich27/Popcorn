@@ -74,6 +74,10 @@ export default function App() {
   }, [query]);
 
 
+  //fucnction tohandle clic event on movies list
+  function handleSelectedMovie({id}:{id:string}){
+    setSelectedId(id)
+  }
 
   return (
     <>
