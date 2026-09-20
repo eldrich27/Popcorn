@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Loading } from "./Loading";
 import { Error as ErrorMessage } from "./Error";
 import { Rating } from "./Rating";
+import type { Movie } from "../types/Movie";
 
 // Client-side environment variables are public; use a server proxy for a truly secret key.
 const OMDB_URL: string = import.meta.env.VITE_OMDB_URL;
@@ -22,7 +23,15 @@ interface MovieDetail {
     Error?: string;
 }
 
-export function MovieDetails({ selectedID, onClose }: { selectedID: string; onClose: () => void }) {
+export function MovieDetails({ 
+    selectedID, 
+    onClose,
+    onAdd
+}: { 
+    selectedID: string; 
+    onClose: () => void;
+    onAdd: (movie: Movie) => void
+}) {
     const [movieDetail, setMovieDetail] = useState<MovieDetail | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
@@ -72,7 +81,24 @@ export function MovieDetails({ selectedID, onClose }: { selectedID: string; onCl
         Plot: plot,
         Actors: actors,
         Director: director,
+        Year : year,
+        
     }: Partial<MovieDetail> = movieDetail ?? {};
+
+
+    function handleAdd(){
+        // keys must match the Movie type; OMDb sends "N/A" for missing numbers, hence `|| 0`
+        const newWatchedMovie: Movie = {
+            imdbID: selectedID,
+            Title: title ?? "",
+            Year: year ?? "",
+            Poster: poster ?? "",
+            imdbRating: Number(imdbrating) || 0,
+            runtime: Number(runtime?.split(" ").at(0)) || 0,
+            userRating: userRating ?? 0,
+        }
+        onAdd(newWatchedMovie)
+    }
 
     return (
         <div className="details">
@@ -101,7 +127,8 @@ export function MovieDetails({ selectedID, onClose }: { selectedID: string; onCl
                             />
                             
                         </div>
-                        {userRating && <button className="btn-add">Add to the List</button>}
+                        {userRating && <button className="btn-add"
+                        onClick={handleAdd}>Add to the List</button>}
                         
                         <p><em>{plot}</em></p>
                         <p>Starring {actors}</p>

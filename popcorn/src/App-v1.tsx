@@ -83,8 +83,8 @@ export default function App() {
     setSelectedId(null)
   }
 
-  function handleAddMovie({movie}:{movie:Movie}){
-    setWatched((previousWatched) => [...previousWatched, movie])
+  function handleAddMovie(movie: Movie){
+    setWatched(watched => [...watched, movie])
   }
 
   return (
