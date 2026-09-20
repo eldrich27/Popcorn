@@ -76,7 +76,7 @@ export default function App() {
 
   //fucnction tohandle clic event on movies list
   function handleSelectedMovie(id: string){
-    setSelectedId(id)
+    setSelectedId(selectedId === id ? null : id)
   }
 
   function handleCloseMovie(){
@@ -96,7 +96,6 @@ export default function App() {
           {!isLoading && !error && <MovieList 
             movies={movies} 
             onSelect={handleSelectedMovie}
-            onClose = {handleCloseMovie}
           />}
           {error && <ErrorMessage message={error} />}
         </Box>
