@@ -58,26 +58,39 @@ export function MovieDetails({ selectedID, onClose }: { selectedID: string; onCl
         return () => controller.abort();
     }, [selectedID]);
 
+    // destructuring the moviedetails object to receive values in lower case
+    const {
+        Title: title,
+        Poster: poster,
+        Runtime: runtime,
+        Genre: genre,
+        Released: released,
+        imdbRating: imdbrating,
+        Plot: plot,
+        Actors: actors,
+        Director: director,
+    }: Partial<MovieDetail> = movieDetail ?? {};
+
     return (
         <div className="details">
             <button className="btn-back" onClick={onClose}>&larr;</button>
             {isLoading && <Loading />}
             {error && <ErrorMessage message={error} />}
-            {movieDetail && (
+            {!isLoading && !error && movieDetail && (
                 <>
                     <header>
-                        <img src={movieDetail.Poster} alt={`${movieDetail.Title} poster`} />
+                        <img src={poster} alt={`${title} poster`} />
                         <div className="details-overview">
-                            <h2>{movieDetail.Title}</h2>
-                            <p>{movieDetail.Released} &bull; {movieDetail.Runtime}</p>
-                            <p>{movieDetail.Genre}</p>
-                            <p><span>⭐️</span>{movieDetail.imdbRating} IMDb rating</p>
+                            <h2>{title}</h2>
+                            <p>{released} &bull; {runtime}</p>
+                            <p>{genre}</p>
+                            <p><span>⭐️</span>{imdbrating} IMDb rating</p>
                         </div>
                     </header>
                     <section>
-                        <p><em>{movieDetail.Plot}</em></p>
-                        <p>Starring {movieDetail.Actors}</p>
-                        <p>Directed by {movieDetail.Director}</p>
+                        <p><em>{plot}</em></p>
+                        <p>Starring {actors}</p>
+                        <p>Directed by {director}</p>
                     </section>
                 </>
             )}
