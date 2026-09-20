@@ -76,7 +76,7 @@ export default function App() {
 
   //fucnction tohandle clic event on movies list
   function handleSelectedMovie(id: string){
-    setSelectedId(selectedId === id ? null : id)
+    setSelectedId((selectedId)=> selectedId === id ? null : id)
   }
 
   function handleCloseMovie(){
