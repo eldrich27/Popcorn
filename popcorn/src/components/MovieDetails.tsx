@@ -99,7 +99,10 @@ export function MovieDetails({ selectedID, onClose }: { selectedID: string; onCl
                                 showValue
                                 onChange={(_, value) => setUserRating(value)}
                             />
+                            
                         </div>
+                        {userRating && <button className="btn-add">Add to the List</button>}
+                        
                         <p><em>{plot}</em></p>
                         <p>Starring {actors}</p>
                         <p>Directed by {director}</p>
