@@ -24,7 +24,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
   const [query, setQuery] = useState<string>("interstellar");
-  const [selectedId, setSelectedId] = useState<string | null>("tt1375666")
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   // const [value, setValue] = useState<number | null>(3);
 
@@ -77,6 +77,10 @@ export default function App() {
   //fucnction tohandle clic event on movies list
   function handleSelectedMovie(id: string){
     setSelectedId(id)
+  }
+
+  function handleCloseMovie(){
+    setSelectedId(null)
   }
 
   return (
