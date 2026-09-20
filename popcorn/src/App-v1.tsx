@@ -11,6 +11,7 @@ import { WatchedSummary } from "./components/WatchedSummary";
 import { NumResult } from "./components/NumResult";
 import { Loading } from "./components/Loading";
 import { Error as ErrorMessage } from "./components/Error";
+import {MovieDetails } from "./components/MovieDetails";
 
 
 // key for omdb api
@@ -88,7 +89,7 @@ export default function App() {
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          {selectedId ? selectedId:<>
+          {selectedId ? <MovieDetails selectedID={selectedId}/>:<>
             <WatchedSummary watched={watched} />
             <WatchedMovieList watched={watched} />
           </>}
