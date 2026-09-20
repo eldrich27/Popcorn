@@ -87,7 +87,7 @@ export function Rating({
 
   // the radiogroup keeps its own box so hover math (getEventValue) ignores the value label
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: "0.8rem" }}>
+    <span style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: "0.4rem" }}>
     <span
       ref={rootRef}
       role="radiogroup"
@@ -113,33 +113,35 @@ export function Rating({
           : clamp(displayValue - i, 0, 1);
 
         return (
-          <span key={index} style={{ position: "relative" }}>
-            <Star
-              filled={fraction}
-              icon={icon}
-              emptyIcon={emptyIcon}
-              size={pxSize}
-              orientation={orientation}
-            />
-            {/* screen-reader input (MUI does this too) */}
-            <input
-              type="radio"
-              name={name}
-              value={index}
-              checked={value === index}
-              readOnly
-              tabIndex={-1}
-              aria-label={getLabelText(index)}
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                opacity: 0,
-                pointerEvents: "none",
-                margin: 0,
-              }}
-            />
-          </span>
+            <div key={index}>
+                <span style={{ position: "relative" }}>
+                    <Star
+                    filled={fraction}
+                    icon={icon}
+                    emptyIcon={emptyIcon}
+                    size={pxSize}
+                    orientation={orientation}
+                    />
+                    {/* screen-reader input (MUI does this too) */}
+                    <input
+                    type="radio"
+                    name={name}
+                    value={index}
+                    checked={value === index}
+                    readOnly
+                    tabIndex={-1}
+                    aria-label={getLabelText(index)}
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        opacity: 0,
+                        pointerEvents: "none",
+                        margin: 0,
+                    }}
+                    />
+                </span>
+            </div>
         );
       })}
       {/* visually hidden live label */}
