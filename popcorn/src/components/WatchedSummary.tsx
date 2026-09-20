@@ -4,8 +4,8 @@ const average = (values: number[]) =>
     values.reduce((total, value) => total + value, 0) / (values.length || 1);
 
 export function WatchedSummary({ watched }: { watched: Movie[] }) {
-    const avgImdbRating = average(watched.map((movie) => movie.imdbRating ?? 0));
-    const avgUserRating = average(watched.map((movie) => movie.userRating ?? 0));
+    const avgImdbRating = average(watched.map((movie) => movie.imdbRating ?? 0)).toFixed(2);
+    const avgUserRating = average(watched.map((movie) => movie.userRating ?? 0)).toFixed(2);
     const avgRuntime = average(watched.map((movie) => movie.runtime ?? 0));
 
     return (

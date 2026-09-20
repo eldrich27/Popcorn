@@ -84,7 +84,20 @@ export default function App() {
   }
 
   function handleAddMovie(movie: Movie){
-    setWatched(watched => [...watched, movie])
+    setWatched(watched => {
+      const existingMovieIndex = watched.findIndex(
+        watchedMovie => watchedMovie.imdbID === movie.imdbID
+      );
+
+      if (existingMovieIndex === -1) return [...watched, movie];
+
+      const existingMovie = watched[existingMovieIndex];
+      if (existingMovie.userRating === movie.userRating) return watched;
+
+      const updatedWatched = [...watched];
+      updatedWatched[existingMovieIndex] = movie;
+      return updatedWatched;
+    });
   }
 
   return (
