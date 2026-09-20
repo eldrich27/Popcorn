@@ -15,8 +15,8 @@ import {MovieDetails } from "./components/MovieDetails";
 
 
 // key for omdb api
-const KEY:string = "4fa905f8"
-const api_uri = `https://www.omdbapi.com/?apikey=${KEY}`;
+// const KEY:string = import.meta.env.VITE_OMDB_API_KEY
+const api_uri:string = import.meta.env.VITE_OMDB_URL;
 
 export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
