@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Movie } from "./types/Movie";
 
 import { NavBar } from "./components/NavBar";
@@ -23,13 +23,45 @@ export default function App() {
   const [watched, setWatched] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
-  const [query, setQuery] = useState<string>("interstellar");
+  const [query, setQuery] = useState<string>("");
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   // const [value, setValue] = useState<number | null>(3);
 
+  //fucnction tohandle clic event on movies list
+  function handleSelectedMovie(id: string){
+    setSelectedId((selectedId)=> selectedId === id ? null : id)
+  }
+
+  // stable identity so it can be a safe effect dependency (here and in MovieDetails)
+  const handleCloseMovie = useCallback(() => {
+    setSelectedId(null)
+  }, [])
+
+  function handleAddMovie(movie: Movie){
+    setWatched(watched => {
+      const existingMovieIndex = watched.findIndex(
+        watchedMovie => watchedMovie.imdbID === movie.imdbID
+      );
+
+      if (existingMovieIndex === -1) return [...watched, movie];
+
+      const existingMovie = watched[existingMovieIndex];
+      if (existingMovie.userRating === movie.userRating) return watched;
+
+      const updatedWatched = [...watched];
+      updatedWatched[existingMovieIndex] = movie;
+      return updatedWatched;
+    });
+  }
+
+  function handleDeleteWatched(id: Movie["imdbID"]){
+    setWatched(watched => watched.filter(movie => movie.imdbID !== id))
+  }
+
   useEffect(() => {
     setError("")
+    handleCloseMovie()
     if (query.length <= 3) {
       setMovies([])
       setIsLoading(false)
@@ -71,38 +103,7 @@ export default function App() {
 
     return () => controller.abort();
 
-  }, [query]);
-
-
-  //fucnction tohandle clic event on movies list
-  function handleSelectedMovie(id: string){
-    setSelectedId((selectedId)=> selectedId === id ? null : id)
-  }
-
-  function handleCloseMovie(){
-    setSelectedId(null)
-  }
-
-  function handleAddMovie(movie: Movie){
-    setWatched(watched => {
-      const existingMovieIndex = watched.findIndex(
-        watchedMovie => watchedMovie.imdbID === movie.imdbID
-      );
-
-      if (existingMovieIndex === -1) return [...watched, movie];
-
-      const existingMovie = watched[existingMovieIndex];
-      if (existingMovie.userRating === movie.userRating) return watched;
-
-      const updatedWatched = [...watched];
-      updatedWatched[existingMovieIndex] = movie;
-      return updatedWatched;
-    });
-  }
-
-  function handleDeleteWatched(id: Movie["imdbID"]){
-    setWatched(watched => watched.filter(movie => movie.imdbID !== id))
-  }
+  }, [query, handleCloseMovie]);
 
   return (
     <>
