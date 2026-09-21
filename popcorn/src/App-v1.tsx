@@ -14,10 +14,11 @@ import { Error as ErrorMessage } from "./components/Error";
 import {MovieDetails } from "./components/MovieDetails";
 
 import { useMovies } from "./hooks/useMovies";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 
 export default function App() {
-  const [watched, setWatched] = useState<Movie[]>([]);
+  const [watched, setWatched] = useLocalStorage<Movie[]>('watched', []);
   const [query, setQuery] = useState<string>("");
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
