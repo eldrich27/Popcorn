@@ -1,26 +1,33 @@
 import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { flushSync } from "react-dom";
 
+
+
 export function Search({query, setQuery}:{query:string, setQuery: Dispatch<SetStateAction<string>>}) {
     const [isOpen, setIsOpen] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    function handleEnter(){
+        const active = document.activeElement;
+        if (active instanceof HTMLElement && ["INPUT", "TEXTAREA", "BUTTON"].includes(active.tagName)) return;
+
+        setQuery("");
+        // render the input first (it is hidden on mobile until open), then focus it
+        flushSync(() => setIsOpen(true));
+        inputRef.current?.focus();
+
+    }
+
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
-            if (e.code !== "Enter") return;
-
-            const active = document.activeElement;
-            if (active instanceof HTMLElement && ["INPUT", "TEXTAREA", "BUTTON"].includes(active.tagName)) return;
-
-            setQuery("");
-            // render the input first (it is hidden on mobile until open), then focus it
-            flushSync(() => setIsOpen(true));
-            inputRef.current?.focus();
+            if (e.code === "Enter"){
+                handleEnter()
+            }
         };
 
         document.addEventListener("keydown", onKeyDown);
         return () => document.removeEventListener("keydown", onKeyDown);
-    }, [setQuery]);
+    }, [handleEnter]);
 
     return (
         <div className={`search-group${isOpen ? " search-group-open" : ""}`}>

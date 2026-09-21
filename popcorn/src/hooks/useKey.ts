@@ -10,13 +10,16 @@ export function useKey({key, action}:useKeyProps){
 
   // Effect to listen to keydow events
     useEffect(function(){
-        const callback = (e: KeyboardEvent) => {
+        const onKeyDown = (e: KeyboardEvent) => {
             if (e.code.toLowerCase() === key.toLowerCase()){
                 action
             }
         }
 
-        document.addEventListener("keydown", callback);
-        return () => document.removeEventListener("keydown", callback);
+        document.addEventListener("keydown", onKeyDown);
+        return () => document.removeEventListener("keydown", onKeyDown);
     }, [action, key]);
+
 }
+
+
