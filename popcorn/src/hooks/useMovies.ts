@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Movie } from "../types/Movie";
 
 
@@ -16,9 +16,15 @@ export function useMovies({query,callback}:UseMovieProps){
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>("")
 
+  // the ref always holds the latest callback, so the fetch effect doesn't need it as a dependency
+  const callbackRef = useRef(callback);
+  useEffect(() => {
+    callbackRef.current = callback;
+  });
+
   useEffect(() => {
     setError("")
-    callback?.()
+    callbackRef.current?.()
     if (query.length <= 3) {
       setMovies([])
       setIsLoading(false)
@@ -62,7 +68,7 @@ export function useMovies({query,callback}:UseMovieProps){
       controller.abort();
     } 
 
-  }, [query, callback]);
+  }, [query]);
 
   return { movies, isLoading, error };
 }
