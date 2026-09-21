@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { flushSync } from "react-dom";
+import { useKey } from "../hooks/useKey";
 
 
 
@@ -7,7 +8,7 @@ export function Search({query, setQuery}:{query:string, setQuery: Dispatch<SetSt
     const [isOpen, setIsOpen] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    function handleEnter(){
+    const handleEnter = ()=>{
         const active = document.activeElement;
         if (active instanceof HTMLElement && ["INPUT", "TEXTAREA", "BUTTON"].includes(active.tagName)) return;
 
@@ -18,16 +19,8 @@ export function Search({query, setQuery}:{query:string, setQuery: Dispatch<SetSt
 
     }
 
-    useEffect(() => {
-        const onKeyDown = (e: KeyboardEvent) => {
-            if (e.code === "Enter"){
-                handleEnter()
-            }
-        };
-
-        document.addEventListener("keydown", onKeyDown);
-        return () => document.removeEventListener("keydown", onKeyDown);
-    }, [handleEnter]);
+    // Using hhooks fo keydown events
+    useKey({ key: "Enter", action: handleEnter });
 
     return (
         <div className={`search-group${isOpen ? " search-group-open" : ""}`}>

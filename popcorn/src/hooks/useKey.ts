@@ -12,7 +12,7 @@ export function useKey({key, action}:useKeyProps){
     useEffect(function(){
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.code.toLowerCase() === key.toLowerCase()){
-                action
+                action();
             }
         }
 

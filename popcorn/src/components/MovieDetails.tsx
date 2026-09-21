@@ -3,6 +3,7 @@ import { Loading } from "./Loading";
 import { Error as ErrorMessage } from "./Error";
 import { Rating } from "./Rating";
 import type { Movie } from "../types/Movie";
+import { useKey } from "../hooks/useKey";
 
 // Client-side environment variables are public; use a server proxy for a truly secret key.
 const OMDB_URL: string = import.meta.env.VITE_OMDB_URL;
@@ -115,16 +116,17 @@ export function MovieDetails({
 
 
     // Effect to listen to keydow events
-    useEffect(function(){
-        const callback = (e: KeyboardEvent) => {
-            if (e.code === "Escape"){
-                onClose()
-            }
-        }
+    useKey({key: "Escape", action: onClose})
+    // useEffect(function(){
+    //     const callback = (e: KeyboardEvent) => {
+    //         if (e.code === "Escape"){
+    //             onClose()
+    //         }
+    //     }
 
-        document.addEventListener("keydown", callback);
-        return () => document.removeEventListener("keydown", callback);
-    }, [onClose]);
+    //     document.addEventListener("keydown", callback);
+    //     return () => document.removeEventListener("keydown", callback);
+    // }, [onClose]);
 
     return (
         <div className="details">
