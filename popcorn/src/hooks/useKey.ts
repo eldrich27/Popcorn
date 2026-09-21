@@ -8,7 +8,7 @@ interface useKeyProps{
 
 export function useKey({key, action}:useKeyProps){
 
-  // Effect to listen to keydow events
+  // Effect to listen to keydown events
     useEffect(function(){
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.code.toLowerCase() === key.toLowerCase()){

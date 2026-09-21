@@ -25,7 +25,7 @@ export function useMovies({query,callback}:UseMovieProps){
   useEffect(() => {
     setError("")
     callbackRef.current?.()
-    if (query.length <= 3) {
+    if (query.length <= 2) {
       setMovies([])
       setIsLoading(false)
       return;
